@@ -1,99 +1,68 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Chatbot</title>
+    <title>Chatbot FAQ</title>
 
-<style>
-body {
-    font-family: Arial;
-    background: #ece5dd;
-    margin: 0;
-}
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
 
-.header {
-    background: #075e54;
-    color: white;
-    padding: 15px;
-    font-size: 18px;
-}
+        h1 {
+            color: #333;
+        }
 
-.chat-box {
-    height: 70vh;
-    overflow-y: auto;
-    padding: 10px;
-}
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.message {
-    max-width: 70%;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 10px;
-}
+        button {
+            width: 90%;
+            max-width: 300px;
+            height: 60px;
+            font-size: 18px;
+            margin: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+        }
 
-.user {
-    background: #dcf8c6;
-    margin-left: auto;
-}
+        button:hover {
+            background-color: #0056b3;
+        }
 
-.bot {
-    background: white;
-}
-
-/* Questions buttons */
-.questions {
-    padding: 10px;
-    background: #f0f0f0;
-}
-
-.questions button {
-    margin: 5px;
-    padding: 10px;
-    border: none;
-    background: #075e54;
-    color: white;
-    border-radius: 20px;
-    cursor: pointer;
-}
-</style>
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="header">
-    🤖 Chatbot Assistant
-</div>
+    <h1>🤖 Chatbot FAQ</h1>
+    <p>Choisissez une question :</p>
 
-<div class="chat-box" id="chat-box"></div>
+    <div class="container">
+        <form method="post">
+            <button name="question" value="horaires">⏰ Quels sont vos horaires ?</button>
+            <button name="question" value="contact">📞 Comment vous contacter ?</button>
+            <button name="question" value="adresse">📍 Où êtes-vous situés ?</button>
+            <button name="question" value="services">💼 Quels sont vos services ?</button>
+        </form>
+    </div>
 
-<div class="questions">
-    <button onclick="sendQuestion('Quels sont vos horaires ?')">Horaires</button>
-    <button onclick="sendQuestion('Quels services proposez-vous ?')">Services</button>
-    <button onclick="sendQuestion('Comment vous contacter ?')">Contact</button>
-</div>
-
-<script>
-function addMessage(text, type) {
-    let msg = document.createElement("div");
-    msg.classList.add("message", type);
-    msg.innerText = text;
-    document.getElementById("chat-box").appendChild(msg);
-}
-
-function sendQuestion(question) {
-    addMessage(question, "user");
-
-    fetch("/chat", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({message: question})
-    })
-    .then(res => res.json())
-    .then(data => {
-        addMessage(data.response, "bot");
-    });
-}
-</script>
+    <div class="result">
+        {{ result }}
+    </div>
 
 </body>
 </html>
