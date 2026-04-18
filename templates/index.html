@@ -1,68 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Chatbot FAQ</title>
-
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        button {
-            width: 90%;
-            max-width: 300px;
-            height: 60px;
-            font-size: 18px;
-            margin: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .result {
-            margin-top: 20px;
-            font-size: 20px;
-            color: green;
-            font-weight: bold;
-        }
-    </style>
 </head>
-
 <body>
 
-    <h1>🤖 Chatbot FAQ</h1>
-    <p>Choisissez une question :</p>
+<h2>Chatbot FAQ</h2>
 
-    <div class="container">
-        <form method="POST">
-            <button type="submit" name="question" value="horaires">⏰ Quels sont vos horaires ?</button>
-            <button type="submit" name="question" value="contact">📞 Comment vous contacter ?</button>
-            <button type="submit" name="question" value="adresse">📍 Où êtes-vous situés ?</button>
-            <button type="submit" name="question" value="services">💼 Quels sont vos services ?</button>
-        </form>
-    </div>
+<p>Posez votre question :</p>
 
-    <div class="result">
-        {{ result }}
-    </div>
+<input type="text" id="message" placeholder="Écrire ici...">
+<button onclick="sendMessage()">Envoyer</button>
+
+<p id="response"></p>
+
+<script>
+function sendMessage() {
+    let message = document.getElementById("message").value;
+
+    fetch("/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({message: message})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("response").innerText = data.response;
+    });
+}
+</script>
 
 </body>
 </html>
